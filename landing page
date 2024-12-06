@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>SGD Kontakte</title>
+ <link rel="icon" type="image/png" href="https://image.service.sgd.de/lib/fe38117075640475741d70/m/1/ca664f83-89b6-4e73-9a71-698e0003dc33.png"> 
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <script src="https://d3js.org/d3.v7.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
+<script>
+$(document).ready(function() {
+    $('#searchForm').submit(function(event) {
+        event.preventDefault(); // Verhindert das Neuladen der Seite
+        var searchTerm = $('#searchInput').val();
+        $.ajax({
+            url: 'https://cloud.service.sgd.de/lookupcontacts', 
+            type: 'POST',
+            data: { searchTerm: searchTerm },
+            success: function(response) {
+                $('#results').html(response);
+                $('#results')[0].scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            },
+            error: function() {
+                $('#results').html('<p>Ein Fehler ist aufgetreten.</p>');
+                console.log('Fehler:', textStatus, errorThrown); 
+            }
+        });
+    });
+});
+</script>
+ <style class="main_style">
+.layout-canvas-g {
+  background-color: #fff;
+  border: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  width: 100%;
+}
+.layout-canvas-g > .header,
+.layout-canvas-g > .section,
+.layout-canvas-g > .footer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  word-wrap: break-word;
+}
+.layout-canvas-g > .section {
+  margin: 10px 0;
+}
+.layout-canvas-g > .section > .columns {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+body {
+  color: #000;
+  font-family: Arial;
+  font-size: 12px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+@media only screen and (max-width: 480px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  .responsive-td {
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+}
+.layout-canvas-g > .section > .columns {
+  width: 100%;
+}
+
+</style>
+
+</head>
+<body>
+<div class="layout layout-canvas-g">
+ <div class="section">
+  <div class="columns col1">
+   <div data-type="slot" data-key="col1"></div>
+  </div>
+ </div>
+</div>
+</body>
+</html>
