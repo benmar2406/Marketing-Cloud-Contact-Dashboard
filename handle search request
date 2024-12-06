@@ -1,0 +1,101 @@
+<script runat="server">
+Platform.Load("Core","1.1.1");
+
+var searchTerm = Request.GetFormField('searchTerm');
+
+// Declare divs for the different displayed categories
+var resultsPerson = '<div id="personalInfo" class="returnedInformation">';
+var resultsStatus = '<div id="statusInfo" class="returnedInformation">';
+var resultsEngagement = '<div id="engagementInfo" class="returnedInformation">';
+var resultsSubStatus = '';
+var errorMessage = '';
+var resultsSubStatus = '';
+
+// Initialize required DEs  
+var masterDEKey = {enter key here}; 
+var subStatusDEKey = {enter key here};
+
+if (searchTerm != null && searchTerm != "") {
+    var columnsToRetrieve = ["ContactId", "Email", "Vorname", "Nachname", "Anrede", "PLZ", "Alter", "Interessent", "Teilnehmer", "Absolvent", "DoubleOptin",  "Letztes_Kontaktformular", "Zuletzt_erhalten", "Zuletzt_gesendet_am", "Zuletzt_geoeffnet_am", "Zuletzt_geklickt_am", "Aktuelle_Journey", "Letzte_Journeyaktivitaet", "Datum_Letzte_Journeyaktivitaet"];
+    var regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    var regexSfId = /^[A-Za-z0-9]{18}$/;
+    var masterDE = DataExtension.Init(masterDEKey);
+    var subStatusDE = DataExtension.Init(subStatusDEKey);
+
+    var filter;
+    if (regexEmail.test(searchTerm)) {
+        filter = {Property: "Email", SimpleOperator: "equals", Value: searchTerm};
+    } else if (regexSfId.test(searchTerm)) {
+        filter = {Property: "ContactId", SimpleOperator: "equals", Value: searchTerm};
+    }
+
+    if (filter) {
+        var data = masterDE.Rows.Retrieve(filter, columnsToRetrieve);
+        var subData = subStatusDE.Rows.Retrieve(filter, ["Status", "Datum_Unsubscribe"]);
+
+        if (data && data.length > 0) {
+            resultsPerson += '<h2>Kontakt</h2><ul>';
+            resultsStatus += '<h2>Status</h2><ul>';
+            resultsEngagement += '<h2>Engagement</h2><ul>';
+
+            for (var i = 0; i < data.length; i++) {
+                resultsPerson +=
+                  '<li><b>ContactId:</b> ' + data[i].ContactId + '</li>' +
+                  '<li><b>Email:</b> ' + data[i].Email + '</li>' +
+                  '<li><b>Vorname:</b> ' + data[i].Vorname + '</li>' + 
+                  '<li><b>Nachname:</b> ' + data[i].Nachname + '</li>' + 
+                  '<li><b>Anrede:</b> ' + data[i].Anrede + '</li>' +
+                  '<li><b>PLZ:</b> ' + data[i].PLZ + '</li>' +
+                  '<li><b>Alter:</b> ' + data[i].Alter + '</li>' +
+                  '<li><b>Double Opt In:</b> ' + (data[i].DoubleOptin === "True" ? 'Ja' : 'Nein') + '</li>';
+
+                resultsStatus +=
+                  '<li><b>Interessent:</b> ' + (data[i].Interessent === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>' +
+                  '<li><b>Teilnehmer:</b> ' + (data[i].Teilnehmer === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>' +
+                  '<li><b>Absolvent:</b> ' + (data[i].Absolvent === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>';
+
+                if (subData && subData.length > 0) {
+                    resultsStatus += 
+                      '<li><b>Subscriber Status:</b> ' + subData[0].Status + '</li>' +
+                      '<li><b>Datum Unsubscribe:</b> ' + subData[0].Datum_Unsubscribe + '</li>';
+                } else {
+                    resultsStatus += '<li><b>Subscriber Status:</b> Nicht verfügbar</li>';
+                }
+
+                resultsEngagement +=
+                  '<li><b>Letzte Email:</b><br> ' + (data[i].Zuletzt_erhalten || 'Keine Daten vorhanden') + '</li><br>' +
+                  '<li><b>Zuletzt gesendet am:</b><br> ' + (data[i].Zuletzt_gesendet_am || 'Keine Daten vorhanden') + '</li><br>' +
+                  '<li><b>Zuletzt geoeffnet am:</b><br> ' + (data[i].Zuletzt_geoeffnet_am || 'Keine Daten vorhanden') + '</li><br>' + 
+                  '<li><b>Zuletzt geklickt am:</b><br> ' + (data[i].Zuletzt_geklickt_am || 'Keine Daten vorhanden') + '</li><br>' + 
+                  '<li><b>Letzte Journey:</b><br> ' + (data[i].Aktuelle_Journey || 'Keine Daten vorhanden') + '</li><br>' +
+                  '<li><b>Letzte Journeyaktivitaet:</b><br> ' + (data[i].Letzte_Journeyaktivitaet || 'Keine Daten vorhanden') + '</li><br>' +
+                  '<li><b>Datum Letzte Journeyaktivitaet:</b><br> ' + (data[i].Datum_Letzte_Journeyaktivitaet || 'Keine Daten vorhanden') + '</li>';
+            }
+
+            resultsPerson += '</ul></div>';
+            resultsStatus += '</ul></div>';
+            resultsEngagement += '</ul></div>';
+;
+            Write(resultsPerson + resultsStatus + resultsEngagement);
+             
+        } else if (subData && subData.length > 0) {
+            for (var i = 0; i < subData.length; i++) {
+                resultsSubStatus = '<div><h2>All Subscribers:</h2><span><b>Subscriber Status:</b> ' + subData[i].Status + '</span><br><span><b>Datum Unsubscribe:</b> ' + subData[0].Datum_Unsubscribe + '<br><br><span>Der Kontakt wird aktuell nicht synchronisiert.</span></div>';
+            }
+          Write(resultsSubStatus);
+          
+        } else {
+            errorMessage = 'Kontakt nicht gefunden: Kontakt existiert nicht oder wird aktuell nicht synchronisiert.';
+            Write(errorMessage);
+        }
+    } else {
+        errorMessage = "<br><div>Suchbegriff ist ungültig: " + searchTerm + '<br></div><br>';
+        Write(errorMessage);
+    }
+} else {
+    errorMessage = 'Bitte geben Sie einen Suchbegriff ein.<br>';
+   Write(errorMessage);
+}
+
+
+</script>
