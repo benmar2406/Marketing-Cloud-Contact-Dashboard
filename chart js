@@ -1,0 +1,51 @@
+<div id="chartHelper">
+  <span id="leads">%%=v(@leads)=%%</span>
+  <span id="participants">%%=v(@activeParticipants)=%%</span>
+  <span id="graduates">%%=v(@graduates)=%%</span>
+</div>
+<div id="chartContainer">
+  <canvas id="myChart"></canvas>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const leads = parseInt(document.getElementById("leads").textContent);
+  const participants = parseInt(document.getElementById("participants").textContent);
+  const graduates = parseInt(document.getElementById("graduates").textContent);
+  
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Interessenten: ' + leads, 'Teilnehmer: ' + participants, 'Absolventen: ' + graduates],
+      datasets: [{
+        data: [leads, participants, graduates],
+        backgroundColor: '#89C82F',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          display: false, // Hide y-axis
+          grid: {
+            display: false // Hide horizontal grid lines
+          }
+        },
+        x: {
+          grid: {
+            display: false // Hide vertical grid lines (optional)
+          }
+        }
+      }
+    }
+  });
+</script>
