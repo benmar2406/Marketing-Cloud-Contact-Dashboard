@@ -1,0 +1,27 @@
+%%[ 
+
+    SET @unitMasterDE = 'Master_Contacts'
+    SET @subStatusDE = 'Subscribers_Status'
+    
+    SET @contactsCount = DataExtensionRowCount(@unitMasterDE)
+    
+    SET @rowsParticipants = LookupOrderedRows(@unitMasterDE, @contactsCount, "ContactId asc", "Teilnehmer", "True")
+    SET @activeParticipants = RowCount(@rowsParticipants)
+    
+    SET @rowsLeads = LookupOrderedRows(@unitMasterDE, @contactsCount, "ContactId asc", "Interessent", "True")
+    SET @leads = RowCount(@rowsLeads)
+    
+    SET @rowsGraduates = LookupOrderedRows(@unitMasterDE, @contactsCount, "ContactId asc", "Absolvent", "True")
+    SET @graduates = RowCount(@rowsGraduates)
+    
+    SET @susbscribersCount = DataExtensionRowCount(@subStatusDE)
+    
+    SET @rowsActive = LookupOrderedRows(@subStatusDE, @susbscribersCount, "ContactId asc", "Status", "active")
+    SET @activsSubs = RowCount(@rowsActive)
+    
+    SET @rowsUnsubs = LookupOrderedRows(@subStatusDE, @susbscribersCount, "ContactId asc", "Status", "unsubscribed")
+    SET @unsubscribedSubs = RowCount(@rowsUnsubs)
+    
+    SET @rowsBounced = LookupOrderedRows(@subStatusDE, @susbscribe 
+
+]%%
