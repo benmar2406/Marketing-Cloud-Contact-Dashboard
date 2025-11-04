@@ -5,7 +5,6 @@
  <link rel="icon" type="image/png" href="https://image.service.sgd.de/lib/fe38117075640475741d70/m/1/ca664f83-89b6-4e73-9a71-698e0003dc33.png"> 
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
- <script src="https://d3js.org/d3.v7.min.js"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  
 <script>
