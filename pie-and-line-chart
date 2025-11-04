@@ -1,0 +1,101 @@
+get general contacts information
+Content
+Block Settings
+Block not saved
+HTML
+53
+​
+54
+      var unsubs = unsubsDE.Rows.Retrieve(filter, cols);
+55
+      Write(Platform.Function.Stringify(unsubs));
+56
+​
+57
+  </script>
+58
+</div>
+59
+​
+60
+<script>
+61
+  const raw = document.getElementById("ssjs-data").textContent;
+62
+  const json = raw ? JSON.parse(raw) : [];
+63
+  
+64
+  const points = json.map(r => ({
+65
+    d: new Date(r.Month),
+66
+    v: Number(r.Unsubscribes_Percentage) || 0
+67
+  })).sort((a,b) => a.d - b.d);
+68
+​
+69
+  const labels = points.map(p => `${p.d.getFullYear()}-${String(p.d.getMonth()+1).padStart(2,'0')}`);
+70
+  const values = points.map(p => p.v);
+71
+​
+72
+  const lineChart = document.getElementById('line-chart').getContext('2d');
+73
+  new Chart(lineChart, {
+74
+    type: 'line',
+75
+    data: {
+76
+      labels,
+77
+      datasets: [{ 
+78
+        label: '% Unsubscribes', 
+79
+        data: values, 
+80
+        tension: 0.4,
+81
+        borderColor: '#D70022'
+82
+      }]
+83
+    },
+84
+    options: { 
+85
+      scales: { y: { 
+86
+         beginAtZero: true, ticks: { precision: 0 } } },
+87
+       plugins: {
+88
+            legend: {
+89
+                position: "bottom"
+90
+            }
+91
+        }
+92
+    }
+93
+  });
+94
+</script>
+95
+​
+96
+​
+97
+​
+98
+​
+99
+​
+100
+​
