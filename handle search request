@@ -1,7 +1,7 @@
 <script runat="server">
 Platform.Load("Core","1.1.1");
 
-var searchTerm = Request.GetFormField('searchTerm');
+var searchTerm = Request.GetFormField('searchTerm');  // Submitted from Cloud Page form via Ajax
 
 // Declare divs for the different displayed categories
 var resultsPerson = '<div id="personalInfo" class="returnedInformation">';
@@ -11,12 +11,11 @@ var resultsSubStatus = '';
 var errorMessage = '';
 var resultsSubStatus = '';
 
-// Initialize required DEs  
-var masterDEKey = {enter key here}; 
-var subStatusDEKey = {enter key here};
+var masterDEKey = ""; // Enter key of the master data extension of the business unit
+var subStatusDEKey = ""; // Enter key of the data extension that tracks the status on All Subscribers
 
 if (searchTerm != null && searchTerm != "") {
-    var columnsToRetrieve = ["ContactId", "Email", "Vorname", "Nachname", "Anrede", "PLZ", "Alter", "Interessent", "Teilnehmer", "Absolvent", "DoubleOptin",  "Letztes_Kontaktformular", "Zuletzt_erhalten", "Zuletzt_gesendet_am", "Zuletzt_geoeffnet_am", "Zuletzt_geklickt_am", "Aktuelle_Journey", "Letzte_Journeyaktivitaet", "Datum_Letzte_Journeyaktivitaet"];
+    var columnsToRetrieve = ["ContactId", "Email", "Vorname", "Nachname", "Anrede", "PLZ", "Alter", "Interessent", "Aktiver_Teilnehmer", "Absolvent", "Double_Opt_In", "Zuletzt_erhalten", "Zuletzt_gesendet_am", "Zuletzt_geoeffnet_am", "Zuletzt_geklickt_am", "Aktuelle_Journey", "Letzte_Journeyaktivitaet", "Datum_Letzte_Journeyaktivitaet"];
     var regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     var regexSfId = /^[A-Za-z0-9]{18}$/;
     var masterDE = DataExtension.Init(masterDEKey);
@@ -38,7 +37,7 @@ if (searchTerm != null && searchTerm != "") {
             resultsStatus += '<h2>Status</h2><ul>';
             resultsEngagement += '<h2>Engagement</h2><ul>';
 
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < 1; i++) {
                 resultsPerson +=
                   '<li><b>ContactId:</b> ' + data[i].ContactId + '</li>' +
                   '<li><b>Email:</b> ' + data[i].Email + '</li>' +
@@ -47,11 +46,11 @@ if (searchTerm != null && searchTerm != "") {
                   '<li><b>Anrede:</b> ' + data[i].Anrede + '</li>' +
                   '<li><b>PLZ:</b> ' + data[i].PLZ + '</li>' +
                   '<li><b>Alter:</b> ' + data[i].Alter + '</li>' +
-                  '<li><b>Double Opt In:</b> ' + (data[i].DoubleOptin === "True" ? 'Ja' : 'Nein') + '</li>';
+                  '<li><b>Double Opt In:</b> ' + (data[i].Double_Opt_In === "True" ? 'Ja' : 'Nein') + '</li>';
 
                 resultsStatus +=
                   '<li><b>Interessent:</b> ' + (data[i].Interessent === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>' +
-                  '<li><b>Teilnehmer:</b> ' + (data[i].Teilnehmer === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>' +
+                  '<li><b>Aktiver Teilnehmer:</b> ' + (data[i].Aktiver_Teilnehmer === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>' +
                   '<li><b>Absolvent:</b> ' + (data[i].Absolvent === "True" ? '<span style="color: #89C82F;"><b>Ja</b></span>' : 'Nein') + '</li>';
 
                 if (subData && subData.length > 0) {
