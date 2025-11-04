@@ -1,0 +1,33 @@
+SELECT
+  /*  unsubscribes */
+  (SELECT COUNT(s.ContactId)
+   FROM Subscribers_Status s
+   WHERE s.Datum_Unsubscribe >= DATEADD(MONTH, -1, DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0))
+     AND s.Datum_Unsubscribe <  DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
+     AND s.Status = 'Unsubscribed'
+  ) AS Unsubscribes,
+
+  /* month label */
+  DATEADD(DAY, -1, DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)) AS [Month],
+
+  /* unsubscribe rate */
+  CAST(
+    (
+      (SELECT COUNT(s.ContactId)
+       FROM Subscribers_Status s
+       WHERE s.Datum_Unsubscribe >= DATEADD(MONTH, -1, DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0))
+         AND s.Datum_Unsubscribe <  DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
+         AND s.Status = 'Unsubscribed'
+      ) * 100.0
+    )
+    /
+    NULLIF(
+      (SELECT COUNT(se.SubscriberKey)
+       FROM ENT._Sent se
+       WHERE se.EventDate >= DATEADD(MONTH, -1, DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0))
+         AND se.EventDate <  DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0)
+      ),
+      0
+    )
+    AS decimal(10,2)
+  ) AS Unsubscribes_Percentage
