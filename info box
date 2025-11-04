@@ -1,11 +1,19 @@
-<div id="accountInformation">
-  <div class="info">
-    <h2>Synchronized Data Extensions</h2>
-     <p>Aktuell sind <b>%%=v(@contactsCount)=%% Marketingkontakte</b> erreichbar.</p> 
-    <p>Davon sind <b>%%=v(@leads)=%% Interessenten</b>, <b>%%=v(@activeParticipants)=%% aktive Teilnehmer</b> und <b>%%=v(@graduates)=%% Absolventen</b>.</p>
-    <br>
-    <h2>All Subscribers</h2>
-    <p>Es befinden sich <b>%%=v(@susbscribersCount)=%% Kontakte</b> auf der All Subscribers Liste (=Kontakte die bereits E-Mails erhalten haben).</p> 
-    <p>Davon sind <b>%%=v(@activsSubs)=%% aktive Subscriber</b>, <b>%%=v(@unsubscribedSubs)=%% abgemeldete Kontakte</b>, <b>%%=v(@bouncedSubs)=%% Kontakte sind aktuell mindestens einmal gebounced </b>und <b>%%=v(@heldSubs)=%% Kontakte sind aufgrund früherer Bounces vom Versand ausgeschlossen.</b></p>       
-  </div>
+get general contacts information
+Content
+Block Settings
+Block not saved
+HTML
+1
+<div id="info-container">
+2
+          <div class="info">
+3
+            <h2>Synchronized Data Extensions</h2>
+4
+             <p>Aktuell sind <b>%%=v(FormatNumber(@contactsCount, "N0", "de_DE"))=%% Marketingkontakte</b> erreichbar.</p> 
+5
+            <p>Davon sind <b>%%=v(FormatNumber(@leads, "N0", "de_DE"))=%% Interessenten</b>, <b>%%=v(FormatNumber(@activeParticipants, "N0", "de_DE"))=%% aktive Teilnehmer</b> und <b>%%=v(FormatNumber(@graduates, "N0", "de_DE"))=%% Absolventen</b>.</p>     
+6
+   </div>
+7
 </div>
