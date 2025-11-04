@@ -1,51 +1,109 @@
-<div id="chartHelper">
+get general contacts information
+Content
+Block Settings
+Block not saved
+HTML
+1
+<div class="chart-helper">
+2
   <span id="leads">%%=v(@leads)=%%</span>
+3
   <span id="participants">%%=v(@activeParticipants)=%%</span>
+4
   <span id="graduates">%%=v(@graduates)=%%</span>
+5
 </div>
-<div id="chartContainer">
-  <canvas id="myChart"></canvas>
+6
+<div id="chart-container">
+7
+  <canvas id="sync-chart"></canvas>
+8
 </div>
-
-
+9
+​
+10
+​
+11
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+12
+​
+13
 <script>
+14
   const leads = parseInt(document.getElementById("leads").textContent);
+15
   const participants = parseInt(document.getElementById("participants").textContent);
+16
   const graduates = parseInt(document.getElementById("graduates").textContent);
+17
   
-  const ctx = document.getElementById('myChart').getContext('2d');
-
+18
+  const ctx = document.getElementById('sync-chart').getContext('2d');
+19
+​
+20
   new Chart(ctx, {
+21
     type: 'bar',
+22
     data: {
-      labels: ['Interessenten: ' + leads, 'Teilnehmer: ' + participants, 'Absolventen: ' + graduates],
+23
+      labels: ['Interessenten: ' + leads.toLocaleString('de-DE'), 'Aktive Teilnehmer: ' + participants.toLocaleString('de-DE'), 'Absolventen: ' + graduates.toLocaleString('de-DE')],
+24
       datasets: [{
+25
         data: [leads, participants, graduates],
-        backgroundColor: '#89C82F',
+26
+        backgroundColor: '#0A84FF',
+27
         borderWidth: 1
+28
       }]
+29
     },
+30
     options: {
+31
       plugins: {
+32
         legend: {
+33
           display: false
+34
         }
+35
       },
+36
       scales: {
+37
         y: {
+38
           display: false, // Hide y-axis
+39
           grid: {
+40
             display: false // Hide horizontal grid lines
+41
           }
+42
         },
+43
         x: {
+44
           grid: {
+45
             display: false // Hide vertical grid lines (optional)
+46
           }
+47
         }
+48
       }
+49
     }
+50
   });
+51
 </script>
+52
+​
