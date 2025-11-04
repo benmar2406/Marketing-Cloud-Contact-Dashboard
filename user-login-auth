@@ -1,0 +1,38 @@
+%%[ 
+/*fill the following variables with your data*/
+SET @cloudpageURL = 
+SET @baseURI = 
+SET @clientid =
+SET @clientsecret = 
+
+SET @code = RequestParameter('code')
+IF IsNullDefault(@code, 'null') == 'null' or @code == '' THEN
+Redirect(CONCAT('https://', @baseURI, '.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=', @clientid, '&redirect_uri=',@cloudpageURL))
+ENDIF
+]%%
+
+<script runat="server">
+Platform.Load("Core","1.1.1");
+
+try {
+/* get OAuth 2.0 access token */
+var code = Platform.Variable.GetValue("@code");
+var payload = '{"grant_type": "authorization_code",';
+payload += '"code": "' + code + '",';
+payload += '"client_id": "' + Variable.GetValue("@clientid") + '",';
+payload += '"client_secret": "' + Variable.GetValue("@clientsecret") + '",';
+payload += '"scope": null,';
+payload += '"redirect_uri": "' + Variable.GetValue("@cloudpageURL") + '"}';
+var OAuth2URL = 'https://' + Variable.GetValue("@baseURI") + '.auth.marketingcloudapis.com/v2/token';
+var contentType = 'application/json';
+var checkCode  = HTTP.Post(OAuth2URL, contentType, payload);
+}
+  
+catch(e) {
+</script>
+
+%%[
+Redirect(CONCAT('https://', @baseURI, '.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=', @clientid, '&redirect_uri=',@cloudpageURL))
+]%%
+
+<script runat="server">}</script>
