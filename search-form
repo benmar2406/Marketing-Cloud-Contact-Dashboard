@@ -1,4 +1,5 @@
 <form id="searchForm">
+     <h2>Finde einen Kontakt</h2>
     <input type="text" id="searchInput" name="searchTerm" placeholder="Email oder Contact Id eingeben">
     <button id="confirmation-button" type="submit" required="">Kontakt suchen</button>
 </form>
