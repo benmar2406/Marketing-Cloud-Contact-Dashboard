@@ -1,0 +1,87 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("searchForm");
+    const resultsDiv = document.getElementById("results");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const searchTerm = document.getElementById("searchInput").value;
+
+        // Show loading indicator
+        resultsDiv.innerHTML = "<p>Bitte warten…</p>";
+
+        try {
+            const body = new URLSearchParams({ searchTerm: searchTerm }).toString();
+
+            const response = await fetch("https://cloud.service.sgd.de/lookupcontact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: body
+            });
+
+            const data = await response.json();
+           
+            console.log(data)
+
+            const html = buildResultsHtml(data);
+
+            resultsDiv.innerHTML = html;
+
+            resultsDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        } catch (error) {
+            resultsDiv.innerHTML = "<p>Ein Fehler ist aufgetreten.</p>";
+            console.error(error);
+        }
+    });
+});
+
+// Converts JSON to HTML
+function buildResultsHtml(data) {
+    if (!data.success) {
+        return `<div class="error">${data.error || "Fehler"}</div>`;
+    }
+
+    if (data.contacts && data.contacts.length > 0) {
+        const c = data.contacts[0];
+        return `
+            <div class="returnedInformation">
+                <h2>Kontakt</h2>
+                <ul>
+                    <li><b>ContactId:</b> ${c.contactId}</li>
+                    <li><b>Email:</b> ${c.email}</li>
+                    <li><b>Vorname:</b> ${c.vorname}</li>
+                    <li><b>Nachname:</b> ${c.nachname}</li>
+                    <li><b>PLZ:</b> ${c.plz}</li>
+                </ul>
+                <h2>Status</h2>
+                <ul>
+                    <li><b>DOI:</b> ${c.doubleOptin}</li>
+                    <li><b>Interessent:</b> ${c.interessent}</li>
+                    <li><b>Teilnehmer:</b> ${c.teilnehmer}</li>
+                    <li><b>Absolvent:</b> ${c.absolvent}</li>
+                </ul>
+            </div>
+            
+            <div class="returnedInformation">
+                <h2>Engagement</h2>
+                <ul>
+                    <li><b>letzte Email:</b> ${c.zuletztErhalten}</li>
+                    <li><b>Datum gesendet:</b> ${c.zuletztGesendetAm}</li>
+                    <li><b>zuletzt geöffnet am:</b> ${c.zuletztGeoeffnetAm}</li>
+                    <li><b>zuletzt geklickt am:</b> ${c.zuletztGeklicktAm}</li>
+                    <li><b>aktuelle Journey:</b> ${c.aktuelleJourney}</li>
+                    <li><b>letzte Journeyaktivität:</b> ${c.letzteJourneyaktivitaet}</li>
+                    <li><b>Datun letzte JB Aktivität:</b> ${c.datumLetzteJourneyaktivitaet}</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    return "<p>Keine Daten gefunden.</p>";
+}
+</script>
