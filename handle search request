@@ -10,7 +10,7 @@ var result = {
 var output;
 
 try {
-    var allowedReferrer = "https://cloud.service.sgd.de";
+    var allowedReferrer = {{Origin CloudPage}};
     var referrer = Platform.Request.ReferrerURL();
 
     if (!referrer || referrer.indexOf(allowedReferrer) === -1) {
@@ -18,8 +18,8 @@ try {
     }
   
     var searchTerm = Request.GetFormField('searchTerm');  
-    var masterDEKey = "Master_DE_SGD";
-    var subStatusDEKey = "Subscribers_Status_SGD";
+    var masterDEKey = {{Quell DE}};
+    var subStatusDEKey ={{Zusätzliche DE}};
 
     if (searchTerm != null && searchTerm != "") {
 
