@@ -2,9 +2,6 @@
 
 **A modular, customizable dashboard for Salesforce Marketing Cloud (MC) to visualize marketing contacts, subscriber info, and unsubscribe trends.**
 
-![Dashboard Preview](https://via.placeholder.com/600x300/0077B6/FFFFFF?text=Marketing+Cloud+Dashboard+Preview)
-*(Replace with a real screenshot of your dashboard.)*
-
 ---
 ## Overview
 This repository provides **modular code snippets** for building an internal Marketing Cloud dashboard as a **CloudPage**. The dashboard:
