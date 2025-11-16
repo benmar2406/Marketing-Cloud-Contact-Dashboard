@@ -47,7 +47,7 @@ The repository contains **individual code snippets** for easy integration and cu
 
 
 ---
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### 1. Clone or Download
 ```bash
