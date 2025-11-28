@@ -25,7 +25,7 @@ try {
 
         var columnsToRetrieve = [
             "ContactId", "Email", "Vorname", "Nachname", "Anrede", "PLZ", "Alter",
-            "Interessent", "Teilnehmer", "Absolvent", "DoubleOptin",
+            "Interessent", "Teilnehmer", "Absolvent", "Double_Opt_In",
             "Zuletzt_erhalten", "Zuletzt_gesendet_am", "Zuletzt_geoeffnet_am",
             "Zuletzt_geklickt_am", "Aktuelle_Journey", "Letzte_Journeyaktivitaet",
             "Datum_Letzte_Journeyaktivitaet"
@@ -61,7 +61,7 @@ try {
                         anrede: row.Anrede,
                         plz: row.PLZ,
                         alter: row.Alter,
-                        doubleOptin: (row.DoubleOptin === "True"),
+                        doubleOptin: (row.Double_Opt_In === "True"),
                         interessent: (row.Interessent === "True"),
                         teilnehmer: (row.Teilnehmer === "True"),
                         absolvent: (row.Absolvent === "True"),
