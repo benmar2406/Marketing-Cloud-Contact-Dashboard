@@ -22,6 +22,7 @@ To use this dashboard, you need:
 2. **Data Extensions (DEs)**:
    - A **Master DE** with subscriber data (e.g., `ContactId`, `Email`, custom attributes...).
    - A **DE for unsubscribe trends** (e.g., `Date`, `UnsubscribeCount`, `PercentageChange`).
+   - respectively data extension/with the attributes you want to display for contact on page
 3. **Code Resource** in Marketing Cloud to process backend requests (e.g., for single subscriber lookups).
 4. Basic knowledge of **SSJS, AMPScript, and JavaScript (Fetch API)**.
 
@@ -40,7 +41,7 @@ The repository contains **individual code snippets** for easy integration and cu
 | landing-page                      | Main landing page of the dashboard.              |
 | pie-and-line-chart                | Combined pie and line chart.                     |
 | search-form                       | Search form for individual contacts.             |
-| user-login-auth
+| user-login-auth                   | code snippet to validate if logged in user       |
 
 
 ---
