@@ -76,7 +76,7 @@ function buildResultsHtml(data) {
                     <li><b>zuletzt geklickt am:</b> ${c.zuletztGeklicktAm}</li>
                     <li><b>aktuelle Journey:</b> ${c.aktuelleJourney}</li>
                     <li><b>letzte Journeyaktivität:</b> ${c.letzteJourneyaktivitaet}</li>
-                    <li><b>Datun letzte JB Aktivität:</b> ${c.datumLetzteJourneyaktivitaet}</li>
+                    <li><b>Datum letzte JB Aktivität:</b> ${c.datumLetzteJourneyaktivitaet}</li>
                 </ul>
             </div>
         `;
