@@ -5,7 +5,7 @@ var result = {
     success: false,
     error: null,
     contacts: [],
-    subscriberOnly: null
+    subscriberOnly: false
 };
 var output;
 
