@@ -17,7 +17,7 @@
     SET @graduates = RowCount(@rowsGraduates)
     
 
-    SET @susbscribersCount = DataExtensionRowCount(@subStatusDE)
+    SET @subscribersCount = DataExtensionRowCount(@subStatusDE)
     
     SET @rowsActive = LookupOrderedRows(@subStatusDE, @susbscribersCount, "ContactId asc", "Status", "active")
     SET @activeSubs = RowCount(@rowsActive)
